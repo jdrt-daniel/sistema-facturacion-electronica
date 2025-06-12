@@ -25,6 +25,24 @@ class Router
         $url = $this->getUrl();
         $method = $_SERVER['REQUEST_METHOD'];
 
+        // Rutas que no requieren autenticación
+        $publicRoutes = [
+            '/login',
+            '/login/validar'
+        ];
+
+        // Verificar si la sesión está iniciada
+        // Es crucial que session_start() se llame al inicio de tu aplicación (ej. en index.php)
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Si la ruta no es pública y el usuario no está logueado, redirigir al login
+        if (!in_array($url, $publicRoutes) && !isset($_SESSION['usuario'])) {
+            header('Location: /login');
+            exit;
+        }
+
         if (isset($this->routes[$method][$url])) {
             $controller = $this->routes[$method][$url];
             $this->executeController($controller);

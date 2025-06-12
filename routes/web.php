@@ -2,6 +2,7 @@
 
 $router->get('/login', 'LoginController@index');
 $router->post('/login/validar', 'LoginController@validar');
+$router->get('/logout', 'LoginController@logout');
 
 $router->get('/', 'HomeController@index');
 $router->get('/usuarios', 'UsuarioController@index');

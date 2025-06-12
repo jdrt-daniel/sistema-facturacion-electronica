@@ -120,36 +120,29 @@
                 src="/assets/assets/img/user2-160x160.jpg"
                 class="user-image rounded-circle shadow"
                 alt="User Image" />
-              <span class="d-none d-md-inline">Alexander Pierce</span>
+              <span class="d-none d-md-inline">
+                <?php echo $_SESSION['usuario']['nombre']; ?>
+              </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <!--begin::User Image-->
-              <li class="user-header text-bg-primary">
+              <li class="user-header text-bg-light">
                 <img
                   src="/assets/assets/img/user2-160x160.jpg"
                   class="rounded-circle shadow"
                   alt="User Image" />
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2023</small>
+                  <?php echo $_SESSION['usuario']['nombre']; ?>
+                  <small>
+                    <?php echo $_SESSION['usuario']['nick']; ?>
+                  </small>
                 </p>
               </li>
-              <!--end::User Image-->
-              <!--begin::Menu Body-->
-              <li class="user-body">
-                <!--begin::Row-->
-                <div class="row">
-                  <div class="col-4 text-center"><a href="javascript:void(0)">Followers</a></div>
-                  <div class="col-4 text-center"><a href="javascript:void(0)">Sales</a></div>
-                  <div class="col-4 text-center"><a href="javascript:void(0)">Friends</a></div>
-                </div>
-                <!--end::Row-->
-              </li>
-              <!--end::Menu Body-->
-              <!--begin::Menu Footer-->
               <li class="user-footer">
-                <a href="javascript:void(0)" class="btn btn-default btn-flat">Profile</a>
-                <a href="javascript:void(0)" class="btn btn-default btn-flat float-end">Sign out</a>
+                <a href="javascript:void(0)" class="btn btn-default btn-flat">Perfil</a>
+                <a href="javascript:void(0)" class="btn btn-default btn-flat float-end"
+
+                  onclick="logout()">Salir</a>
               </li>
               <!--end::Menu Footer-->
             </ul>
@@ -398,6 +391,22 @@
     </script>
   <?php endif; ?>
   <!--end::Script-->
+  <script>
+    function logout() {
+      fetch("/logout", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "ok") {
+            window.location.href = "/";
+          }
+        });
+    }
+  </script>
 </body>
 <!--end::Body-->
 

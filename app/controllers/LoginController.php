@@ -46,4 +46,11 @@ class LoginController extends Controller
             }
         }
     }
+
+    public function logout()
+    {
+        session_destroy();
+        echo json_encode(['status' => 'ok', 'msg' => '']);
+        exit;
+    }
 }

@@ -42,7 +42,6 @@ class Usuario
     public function validatePassword($clave, $claveHash)
     {
         return password_verify($clave, $claveHash);
-        // return password_verify($clave, $claveHash);
     }
 
     public function crear($datos)

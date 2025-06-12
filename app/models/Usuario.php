@@ -12,11 +12,14 @@ class Usuario
 
     public function getUsuarios($offset = 0, $limit = 10)
     {
+        $offset = (int)$offset;
+        $limit = (int)$limit;
+
         $sql = "SELECT u.*, c.caja AS caja FROM usuarios u
                     JOIN cajas c ON c.id_caja = u.id_caja
                     ORDER BY nombre ASC
-                    LIMIT ? OFFSET ?";
-        return $this->db->fetchAll($sql, [$limit, $offset]);
+                    LIMIT $limit OFFSET $offset";
+        return $this->db->fetchAll($sql);
     }
 
     public function getTotalUsuarios()

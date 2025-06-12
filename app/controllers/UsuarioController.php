@@ -16,7 +16,7 @@ class UsuarioController extends Controller
         require_once BASE_PATH . '/app/models/Usuario.php';
         $usuarioModel = new Usuario();
 
-        $limit = 10;
+        $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($page - 1) * $limit;
 
@@ -26,8 +26,12 @@ class UsuarioController extends Controller
 
         $this->view('usuarios/index', [
             'usuarios' => $usuarios,
-            'page' => $page,
-            'totalPages' => $totalPages
+            'totalUsuarios' => $totalUsuarios,
+            'pagination' => [
+                'page' => $page,
+                'rowsPerPage' => $limit,
+                'totalPages' => $totalPages,
+            ]
         ]);
     }
 

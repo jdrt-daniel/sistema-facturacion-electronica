@@ -1,10 +1,6 @@
 <?php
 ob_start();
 $usuario = new Usuario();
-$usuarios = $usuario->getUsuarios(
-    isset($_GET['page']) ? (int)$_GET['page'] : 1,
-    10
-);
 ?>
 
 <div class="container">
@@ -16,7 +12,7 @@ $usuarios = $usuario->getUsuarios(
                     <h3 class="card-title">Lista de usuarios</h3>
 
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Nuevo usuario
                         </button>
                     </div>
@@ -25,7 +21,7 @@ $usuarios = $usuario->getUsuarios(
             <!-- /.card-header -->
             <div class="card-body p-0">
                 <table class="table">
-                    <thead>
+                    <thead class="table-dark">
                         <tr>
                             <th width="50">#</th>
                             <th>Nombre</th>
@@ -43,8 +39,8 @@ $usuarios = $usuario->getUsuarios(
                                     <td><?php echo htmlspecialchars($usuario['nick']); ?></td>
                                     <td><?php echo htmlspecialchars($usuario['caja']); ?></td>
                                     <td>
-                                        <a href="/usuarios/editar/<?php echo $usuario['id_usuario']; ?>" class="btn btn-dark btn-sm">Editar</a>
-                                        <a href="/usuarios/eliminar/<?php echo $usuario['id_usuario']; ?>" class="btn btn-dark btn-sm" onclick="return confirm('¿Está seguro de eliminar este usuario?')">Eliminar</a>
+                                        <a href="/usuarios/editar/<?php echo $usuario['id_usuario']; ?>" class="btn btn-light btn-sm">Editar</a>
+                                        <a href="/usuarios/eliminar/<?php echo $usuario['id_usuario']; ?>" class="btn btn-light btn-sm" onclick="return confirm('¿Está seguro de eliminar este usuario?')">Eliminar</a>
                                         <a href="/usuarios/ver/<?php echo $usuario['id_usuario']; ?>" class="btn btn-light btn-sm">Ver</a>
                                     </td>
                                 </tr>
@@ -59,24 +55,40 @@ $usuarios = $usuario->getUsuarios(
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-                <div class="float-start d-flex align-items-center">
-                    <span class="text-dark">
-                        <?php echo $page; ?> de <?php echo $totalPages; ?>
-                    </span>
+                <div class="float-start d-flex align-items-center m-0">
+                    <p class="text-dark mb-0 pt-2">
+                        Página <?php echo $pagination['page']; ?> de <?php echo $pagination['totalPages']; ?>
+                    </p>
                 </div>
-                <ul class="pagination m-0 float-end">
-                    <?php if ($page > 1): ?>
-                        <li class="page-item"><a class="page-link" href="?page=<?php echo $page - 1; ?>">Anterior</a></li>
-                    <?php endif; ?>
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
-                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                        </li>
-                    <?php endfor; ?>
-                    <?php if ($page < $totalPages): ?>
-                        <li class="page-item"><a class="page-link" href="?page=<?php echo $page + 1; ?>">Siguiente</a></li>
-                    <?php endif; ?>
-                </ul>
+                <div class="float-end d-flex align-items-center m-0">
+                    <p class="text-dark mb-0 pt-1 me-2">
+                        <?php echo $totalUsuarios; ?> registros
+                    </p>
+                    <div class="mx-2">
+                        <select class="form-select" aria-label="Select"
+                            onchange="window.location.href = '?page=1&limit=' + this.value;">
+                            <option value="10" <?= $pagination['rowsPerPage'] == 10 ? 'selected' : '' ?>>10</option>
+                            <option value="20" <?= $pagination['rowsPerPage'] == 20 ? 'selected' : '' ?>>20</option>
+                            <option value="30" <?= $pagination['rowsPerPage'] == 30 ? 'selected' : '' ?>>30</option>
+                            <option value="40" <?= $pagination['rowsPerPage'] == 40 ? 'selected' : '' ?>>40</option>
+                            <option value="50" <?= $pagination['rowsPerPage'] == 50 ? 'selected' : '' ?>>50</option>
+                        </select>
+                    </div>
+                    <ul class="pagination m-0">
+                        <?php if ($pagination['page'] > 1): ?>
+                            <li class="page-item "><a class="page-link" href="?page=<?php echo $pagination['page'] - 1; ?>">Anterior</a></li>
+                        <?php endif; ?>
+                        <?php for ($i = 1; $i <= $pagination['totalPages']; $i++): ?>
+                            <li class="page-item <?php echo ($i == $pagination['page']) ? 'active' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+                        <?php if ($pagination['page'] < $pagination['totalPages']): ?>
+                            <li class="page-item"><a class="page-link" href="?page=<?php echo $pagination['page'] + 1; ?>">Siguiente</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

@@ -1,22 +1,27 @@
 <?php
 
-class Router {
+class Router
+{
     protected $routes = [];
     protected $params = [];
 
-    public function get($route, $controller) {
+    public function get($route, $controller)
+    {
         $this->addRoute('GET', $route, $controller);
     }
 
-    public function post($route, $controller) {
+    public function post($route, $controller)
+    {
         $this->addRoute('POST', $route, $controller);
     }
 
-    protected function addRoute($method, $route, $controller) {
+    protected function addRoute($method, $route, $controller)
+    {
         $this->routes[$method][$route] = $controller;
     }
 
-    public function dispatch() {
+    public function dispatch()
+    {
         $url = $this->getUrl();
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -29,16 +34,18 @@ class Router {
         }
     }
 
-    protected function getUrl() {
+    protected function getUrl()
+    {
         $url = $_SERVER['REQUEST_URI'];
         $url = strtok($url, '?');
         return $url;
     }
 
-    protected function executeController($controller) {
+    protected function executeController($controller)
+    {
         list($controllerName, $action) = explode('@', $controller);
         $controllerFile = BASE_PATH . "/app/controllers/{$controllerName}.php";
-        
+
         if (file_exists($controllerFile)) {
             require_once $controllerFile;
             $controllerInstance = new $controllerName();
@@ -47,4 +54,4 @@ class Router {
             throw new Exception("Controller not found");
         }
     }
-} 
+}

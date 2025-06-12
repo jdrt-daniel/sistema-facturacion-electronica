@@ -10,7 +10,7 @@ ob_start();
             <p>Para acceder a la aplicación, por favor ingrese con el siguiente usuario:</p>
             <ul>
                 <li>Usuario: admin</li>
-                <li>Contraseña: 123456</li>
+                <li>Contraseña: 12345</li>
             </ul>
             <p>Si no tiene acceso a la aplicación, por favor contacte con el administrador.</p>
         </div>

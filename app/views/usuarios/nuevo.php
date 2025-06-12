@@ -1,6 +1,6 @@
 <?php
-    ob_start();
-    ?>
+ob_start();
+?>
 
 <div class="container mt-5">
     <div class="row">
@@ -27,5 +27,6 @@
 
 <?php
 $content = ob_get_clean();
+$title = 'Nuevo Usuario';
 require_once BASE_PATH . '/app/views/layout/app.layout.php';
 ?>
